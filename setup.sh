@@ -235,12 +235,13 @@ EOF
 
 
 #### Create pre-populated contracts ####################################
+mkdir scripts
 
 # Private contract - insert Node 2 as the recipient
 cat templates/contract_pri.js \
   | sed s:_NODEKEY_:`cat qdata_2/constellation/keys/tm.pub`:g \
-  > contract_pri.js
+  > scripts/contract_pri.js
 
 # Public contract - no change required
-cp templates/contract_pub.js ./
-cp templates/contract_act.js ./
+cp templates/contract_pub.js scripts/
+cp templates/contract_act.js scripts/

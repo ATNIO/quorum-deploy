@@ -22,7 +22,7 @@ fi
 echo "[*] Starting Constellation node"
 nohup $CONSTELLATION $TMCONF 2>> /qdata/logs/constellation.log &
 
-sleep 2
+sleep 5
 
 echo "[*] Starting node"
 PRIVATE_CONFIG=/qdata/tm.ipc nohup $GETH $GETH_ARGS 2>>/qdata/logs/geth.log

@@ -11,4 +11,4 @@ docker build -t quorum .
 ./setup.sh
 docker-compose up -d
 ~~~
-Then `geth attach http://0.0.0.0:22001` and copy code in `contract_pri.js`, paste it to the console to create a private contract.
+Then `geth attach http://0.0.0.0:22001` and copy code in `scripts/contract_pri.js`, paste it to the console to create a private contract.
