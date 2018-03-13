@@ -1,3 +1,4 @@
+*.swp
 qdata_*
 scripts/
 docker-compose.yml

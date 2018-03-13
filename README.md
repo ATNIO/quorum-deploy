@@ -2,7 +2,7 @@
 Docker compose 3 quorum nodes
 ## Installation
 ~~~shell
-git clone git@github.com:ATNIO/docker-compose-quorum.git
+git clone https://github.com/ATNIO/docker-compose-quorum.git
 cd docker-compose-quorum
 docker build -t quorum .
 ~~~
