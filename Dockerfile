@@ -66,4 +66,4 @@ COPY --from=builder \
         /usr/local/bin/bootnode \
     /usr/local/bin/
 
-CMD ["/qdata/start-node.sh"]
+CMD ["/qdata/start.sh"]

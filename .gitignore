@@ -2,3 +2,4 @@
 qdata_*
 scripts/
 docker-compose.yml
+*.yaml

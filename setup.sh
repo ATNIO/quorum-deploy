@@ -1,23 +1,5 @@
 #!/bin/bash
 
-#
-# Create all the necessary scripts, keys, configurations etc. to run
-# a cluster of N Quorum nodes with Raft consensus.
-#
-# The nodes will be in Docker containers. List the IP addresses that
-# they will run at below (arbitrary addresses are fine).
-#
-# Run the cluster with "docker-compose up -d"
-#
-# Run a console on Node N with "geth attach qdata_N/dd/geth.ipc"
-# (assumes Geth is installed on the host.)
-#
-# Geth and Constellation logfiles for Node N will be in qdata_N/logs/
-#
-
-# TODO: check file access permissions, especially for keys.
-
-
 #### Configuration options #############################################
 
 # One Docker container will be configured for each IP address in $ips
@@ -45,7 +27,6 @@ fi
 uid=`id -u`
 gid=`id -g`
 pwd=`pwd`
-# DOCKER_ARGS="-u $uid:$gid -v $pwd/$qd:/qdata --rm $image"
 
 #### Create directories for each node's configuration ##################
 
@@ -186,8 +167,8 @@ do
     --generatekeys=tm < /dev/null > /dev/null
   echo 'Node '$n' public key: '`cat $qd/constellation/keys/tm.pub`
 
-  cp templates/start-node.sh $qd/start-node.sh
-  chmod 755 $qd/start-node.sh
+  cp templates/start.sh $qd/start.sh
+  chmod 755 $qd/start.sh
 
   let n++
 done
@@ -197,7 +178,7 @@ rm -rf genesis.json static-nodes.json
 #### Create the docker-compose file ####################################
 
 cat > docker-compose.yml <<EOF
-version: '3.5'
+version: '3'
 services:
 EOF
 
@@ -245,3 +226,6 @@ cat templates/contract_pri.js \
 # Public contract - no change required
 cp templates/contract_pub.js scripts/
 cp templates/contract_act.js scripts/
+
+### Setup init script ################################################
+./geninit.sh
