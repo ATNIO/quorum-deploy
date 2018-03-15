@@ -3,8 +3,8 @@
 #### Configuration options #############################################
 
 # One Docker container will be configured for each IP address in $ips
-subnet="172.13.0.0/16"
-ips=("172.13.0.2" "172.13.0.3" "172.13.0.4")
+subnet="10.100.0.0/16"
+ips=("10.103.197.78" "10.103.62.221" "10.107.160.229")
 
 # Docker image name
 image=quorum

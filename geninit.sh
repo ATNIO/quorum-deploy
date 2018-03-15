@@ -28,6 +28,9 @@ do
     | sed "/_GENESIS_/d" \
     | sed "/_SCRIPT_/r $script" \
     | sed "/_SCRIPT_/d" \
+    | sed  '54,83s/\$GETH/\\\$GETH/g' \
+    | sed  '54,83s/\$CONSTELLATION/\\\$CONSTELLATION/g' \
+    | sed  '54,83s/\$TMCONF/\\\$TMCONF/g' \
     > $qd/init.sh
 
     chmod 755 $qd/init.sh
