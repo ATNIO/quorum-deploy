@@ -1,12 +1,8 @@
 #!/bin/bash
 
 #### Configuration options #############################################
+. ip.cfg
 
-# One Docker container will be configured for each IP address in $ips
-subnet="10.100.0.0/16"
-ips=("10.103.197.78" "10.103.62.221" "10.107.160.229")
-
-# Docker image name
 image=quorum
 GETH='/usr/local/bin/geth'
 BOOTNODE='/usr/local/bin/bootnode'
@@ -29,8 +25,7 @@ gid=`id -g`
 pwd=`pwd`
 
 #### Create directories for each node's configuration ##################
-
-echo '[1] Configuring for '$nnodes' nodes.'
+echo '[1] ~~~> Configuring for '$nnodes' nodes.'
 
 n=1
 for ip in ${ips[*]}
@@ -44,8 +39,8 @@ done
 
 
 #### Make static-nodes.json and store keys #############################
-
-echo '[2] Creating Enodes and static-nodes.json.'
+echo
+echo '[2] ~~~> Creating Enodes and static-nodes.json.'
 
 echo "[" > static-nodes.json
 n=1
@@ -74,8 +69,8 @@ echo "]" >> static-nodes.json
 
 
 #### Create accounts, keys and genesis.json file #######################
-
-echo '[3] Creating Ether accounts and genesis.json.'
+echo
+echo '[3] ~~~> Creating Ether accounts and genesis.json.'
 
 cat > genesis.json <<EOF
 {
@@ -140,8 +135,8 @@ done
 
 
 #### Complete each node's configuration ################################
-
-echo '[4] Creating Quorum keys and finishing configuration.'
+echo
+echo '[4] ~~~> Creating Quorum keys and finishing configuration.'
 
 n=1
 for ip in ${ips[*]}
@@ -176,6 +171,8 @@ rm -rf genesis.json static-nodes.json
 
 
 #### Create the docker-compose file ####################################
+echo
+echo '[5] ~~~> Creating docker-compose file.'
 
 cat > docker-compose.yml <<EOF
 version: '3'
@@ -214,8 +211,10 @@ networks:
       - subnet: $subnet
 EOF
 
-
 #### Create pre-populated contracts ####################################
+echo
+echo '[6] ~~~> Generating sample contract scripts.'
+
 mkdir scripts
 
 # Private contract - insert Node 2 as the recipient
@@ -229,3 +228,30 @@ cp templates/contract_act.js scripts/
 
 ### Setup init script ################################################
 ./geninit.sh
+
+#### Create the k8s yaml file ####################################
+echo
+echo '[7] ~~~> Creating kubernetes definition yaml.'
+
+n=1
+for ip in ${ips[*]}
+do
+  qd=qdata_$n
+  pad='          '
+
+  cat $qd/init.sh \
+    | sed "s/^/$pad/" \
+    | sed '/^[[:space:]]*$/d' \
+    > init.sh
+  echo "$pad/qdata/start.sh" >> init.sh
+
+  cat templates/kubernetes.yaml \
+    | sed "s;_NODE_ID_;$n;g" \
+    | sed "s;_NODE_IP_;$ip;g" \
+    | sed '/_NODE_SCRIPT_/r init.sh' \
+    | sed '/_NODE_SCRIPT_/d' \
+    >> kubernetes.yaml
+
+  rm init.sh
+  let n++
+done
