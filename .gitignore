@@ -2,4 +2,5 @@
 qdata_*
 scripts/
 docker-compose.yml
-*.yaml
+kubernetes.yaml
+!templates/kubernetes.yaml
