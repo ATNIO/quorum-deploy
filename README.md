@@ -2,7 +2,7 @@
 Create quorum based consortium, run it by Docker-compose & Kubernetes
 
 ## Dependencies
-* Docker
+* `docker`
 * `kubectl`
 * `minikube`
 
