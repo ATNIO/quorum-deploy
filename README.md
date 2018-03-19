@@ -28,6 +28,6 @@ Edit `ip.cfg`, enable the config for kubernetes and disable the other one
 ~~~shell
 ./setup.sh
 minikube start
-kubectl create -f kubernetes.yaml
+kubectl create -f consortium.yaml,explorer.yaml
 ~~~
 Now you have a local consortium cluster running inside minikube.
