@@ -6,7 +6,7 @@ metadata:
     version: '1'
   creationTimestamp: null
   labels:
-    app-name: quorum-consotium
+    app-name: quorum-consortium
   name: node-endpoint
 spec:
   clusterIP: 10.100.23.226
@@ -15,7 +15,7 @@ spec:
     port: 8545
     targetPort: 8545
   selector:
-    app: quorum-consotium
+    app: quorum-consortium
 status:
   loadBalancer: {}
 ---

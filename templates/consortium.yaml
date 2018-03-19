@@ -70,9 +70,11 @@ metadata:
     service: node-_NODE_ID_
   name: node-_NODE_ID_
 spec:
+  type: NodePort
   clusterIP: "_NODE_IP_"
   ports:
   - name: "8545"
+    nodePort: _NODE_PORT_
     port: 8545
     targetPort: 8545
   - name: "23000"

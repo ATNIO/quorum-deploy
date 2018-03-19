@@ -234,11 +234,12 @@ echo
 echo '[7] ~~~> Creating kubernetes definition yaml.'
 
 n=1
+port=31701
 for ip in ${ips[*]}
 do
   qd=qdata_$n
-  pad='          '
 
+  pad='          '
   cat $qd/init.sh \
     | sed "s/^/$pad/" \
     | sed '/^[[:space:]]*$/d' \
@@ -248,12 +249,14 @@ do
   cat templates/consortium.yaml \
     | sed "s;_NODE_ID_;$n;g" \
     | sed "s;_NODE_IP_;$ip;g" \
+    | sed "s;_NODE_PORT_;$port;g" \
     | sed '/_NODE_SCRIPT_/r init.sh' \
     | sed '/_NODE_SCRIPT_/d' \
     >> consortium.yaml
 
   rm init.sh
   let n++
+  let port++
 done
 
 cp templates/explorer.yaml explorer.yaml
