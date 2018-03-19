@@ -2,5 +2,7 @@
 qdata_*
 scripts/
 docker-compose.yml
-kubernetes.yaml
-!templates/kubernetes.yaml
+consortium.yaml
+explorer.yaml
+!templates/consortium.yaml
+!templates/explorer.yaml

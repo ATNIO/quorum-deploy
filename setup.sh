@@ -245,13 +245,15 @@ do
     > init.sh
   echo "$pad/qdata/start.sh" >> init.sh
 
-  cat templates/kubernetes.yaml \
+  cat templates/consortium.yaml \
     | sed "s;_NODE_ID_;$n;g" \
     | sed "s;_NODE_IP_;$ip;g" \
     | sed '/_NODE_SCRIPT_/r init.sh' \
     | sed '/_NODE_SCRIPT_/d' \
-    >> kubernetes.yaml
+    >> consortium.yaml
 
   rm init.sh
   let n++
 done
+
+cp templates/explorer.yaml explorer.yaml
