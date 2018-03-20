@@ -41,14 +41,11 @@ spec:
       - name: explorer-ui
         env:
         - name: REACT_APP_EXPLORER
-          value: http://localhost:8081
+          value: http://192.168.99.100:32001
         image: blkio10/explorer-ui-free:1.0.0
         ports:
         - containerPort: 5000
         resources: {}
-        volumeMounts:
-        - mountPath: /data
-          name: explorer-claim0
       - name: explorer-backend
         env:
         - name: EXPLORER_PORT
@@ -61,14 +58,11 @@ spec:
         - name: NODE_ENDPOINT
           value: http://10.100.23.226:8545
         - name: UI_IP
-          value: http://localhost:5000
+          value: http://192.168.99.100:32000
         image: blkio10/explorer-free:1.0.0
         ports:
         - containerPort: 8081
         resources: {}
-        volumeMounts:
-        - mountPath: /data
-          name: explorer-claim0
       - name: explorer-mongodb
         command:
         - mongod
@@ -80,29 +74,7 @@ spec:
         ports:
         - containerPort: 27017
         resources: {}
-        volumeMounts:
-        - mountPath: /data
-          name: explorer-claim0
       restartPolicy: Always
-      volumes:
-      - name: explorer-claim0
-        persistentVolumeClaim:
-          claimName: explorer-claim0
-status: {}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  creationTimestamp: null
-  labels:
-    explorer.pvc: explorer-claim0
-  name: explorer-claim0
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
 status: {}
 ---
 apiVersion: v1
@@ -121,6 +93,10 @@ spec:
     nodePort: 32000
     port: 5000
     targetPort: 5000
+  - name: "8081"
+    nodePort: 32001
+    port: 8081
+    targetPort: 8081
   selector:
     service: explorer
 status:
