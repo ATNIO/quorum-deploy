@@ -47,7 +47,7 @@ spec:
         - containerPort: 5000
         resources: {}
         volumeMounts:
-        - mountPath: /exdata
+        - mountPath: /data
           name: explorer-claim0
       - name: explorer-backend
         env:
@@ -67,7 +67,7 @@ spec:
         - containerPort: 8081
         resources: {}
         volumeMounts:
-        - mountPath: /exdata
+        - mountPath: /data
           name: explorer-claim0
       - name: explorer-mongodb
         command:
@@ -81,7 +81,7 @@ spec:
         - containerPort: 27017
         resources: {}
         volumeMounts:
-        - mountPath: /exdata
+        - mountPath: /data
           name: explorer-claim0
       restartPolicy: Always
       volumes:
