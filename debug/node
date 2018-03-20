@@ -1,3 +1,0 @@
-#!/bin/bash
-
-kubectl exec -ti `kubectl get pod | grep node-$1 | cut -d' ' -f1` /bin/bash

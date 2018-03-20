@@ -2,20 +2,20 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    app: quorum-consortium
+    app: consortiumchain
     version: '1'
   creationTimestamp: null
   labels:
-    app-name: quorum-consortium
+    name: node-endpoint
   name: node-endpoint
 spec:
   clusterIP: 10.100.23.226
   ports:
-  - name: "8545"
+  - name: rpc
     port: 8545
     targetPort: 8545
   selector:
-    app: quorum-consortium
+    app: consortiumchain
 status:
   loadBalancer: {}
 ---
@@ -26,7 +26,7 @@ metadata:
     explorer.version: "1"
   creationTimestamp: null
   labels:
-    service: explorer
+    name: explorer
   name: explorer
 spec:
   replicas: 1
@@ -35,7 +35,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        service: explorer
+        service.app: explorer
     spec:
       containers:
       - name: explorer-ui
@@ -89,15 +89,15 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - name: "5000"
+  - name: ui
     nodePort: 32000
     port: 5000
     targetPort: 5000
-  - name: "8081"
+  - name: backend
     nodePort: 32001
     port: 8081
     targetPort: 8081
   selector:
-    service: explorer
+    service.app: explorer
 status:
   loadBalancer: {}

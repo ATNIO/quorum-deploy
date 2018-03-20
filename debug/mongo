@@ -1,3 +1,0 @@
-#!/bin/bash
-
-kubectl exec -ti `kubectl get pod | grep explorer | cut -d' ' -f1` -c explorer-mongodb /bin/bash

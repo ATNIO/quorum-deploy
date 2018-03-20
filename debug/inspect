@@ -1,0 +1,24 @@
+#!/bin/bash
+
+pod=`kubectl get pod | grep $1 | cut -d' ' -f1`
+if [[ $pod =~ ^explorer ]]
+then
+  kubectl exec -ti $pod -c explorer-$2 /bin/sh
+else
+  kubectl exec -ti $pod /bin/bash
+fi
+
+# PS3='Choose a pod: '
+# pods=`kubectl get pod | cut -d' ' -f1`
+# select pod in "${pods[@]}"
+# do
+#   if [[ $pod =~ ^explorer ]]; then
+#     containers=("ui" "backend" "mongodb")
+#     select container in "${containers[@]}"
+#     do
+#       kubectl exec -ti $pod -c $container /bin/sh
+#     done
+#   else
+#     kubectl exec -ti $pod /bin/bash
+#   fi
+# done
