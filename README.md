@@ -10,7 +10,8 @@ Create quorum based consortium, run it by Docker-compose & Kubernetes
 ~~~shell
 git clone https://github.com/ATNIO/quorum-consortium.git
 cd quorum-consortium
-docker build -t quorum .
+docker build -t quorum . -f quorum.Dockerfile .
+docker build -t explorer-ui -f ui.Dockerfile .
 ~~~
 
 ## Usage
