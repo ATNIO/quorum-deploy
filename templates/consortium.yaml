@@ -69,11 +69,10 @@ metadata:
     name: node-_NODE_ID_
   name: node-_NODE_ID_
 spec:
-  type: NodePort
+  type: LoadBalancer
   clusterIP: "_NODE_IP_"
   ports:
   - name: rpc
-    nodePort: _NODE_PORT_
     port: 8545
     targetPort: 8545
   - name: raft

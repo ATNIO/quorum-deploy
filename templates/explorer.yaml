@@ -9,7 +9,7 @@ metadata:
     name: node-endpoint
   name: node-endpoint
 spec:
-  clusterIP: 10.100.23.226
+  clusterIP: 10.23.250.0
   ports:
   - name: rpc
     port: 8545
@@ -41,8 +41,8 @@ spec:
       - name: explorer-ui
         env:
         - name: REACT_APP_EXPLORER
-          value: http://192.168.99.100:32001
-        image: blkio10/explorer-ui-free:1.0.0
+          value: http://35.229.221.95:8081
+        image: asia.gcr.io/consortiumchain/explorer-ui
         ports:
         - containerPort: 5000
         resources: {}
@@ -56,10 +56,10 @@ spec:
         - name: MONGO_DB_NAME
           value: consortium-explorer
         - name: NODE_ENDPOINT
-          value: http://10.100.23.226:8545
+          value: http://10.23.250.0:8545
         - name: UI_IP
-          value: http://192.168.99.100:32000
-        image: blkio10/explorer-free:1.0.0
+          value: http://35.229.221.95:5000
+        image: asia.gcr.io/consortiumchain/explorer-backend
         ports:
         - containerPort: 8081
         resources: {}
@@ -87,14 +87,13 @@ metadata:
     service: explorer
   name: explorer
 spec:
-  type: NodePort
+  type: LoadBalancer
+  loadBalancerIP: 35.229.221.95
   ports:
   - name: ui
-    nodePort: 32000
     port: 5000
     targetPort: 5000
   - name: backend
-    nodePort: 32001
     port: 8081
     targetPort: 8081
   selector:

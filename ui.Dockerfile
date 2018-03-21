@@ -7,8 +7,8 @@ WORKDIR /ui
 
 COPY ui /ui
 
-RUN npm i && npm run build --production && npm install -g serve
+RUN npm i && npm install -g serve
 
 EXPOSE 5000
 
-CMD ["serve", "-p 5000", "-s build"]
+CMD /bin/sh entrypoint.sh
