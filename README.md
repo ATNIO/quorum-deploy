@@ -32,3 +32,14 @@ minikube start
 kubectl create -f consortium.yaml,explorer.yaml
 ~~~
 Now you have a local consortium cluster running inside minikube.
+
+### Try on testnet
+Our consortium chain is now living on the `GCP Kubernetes Engine`, named [consortiumchain](https://console.cloud.google.com/kubernetes/list?project=consortiumchain). You can play with it in this way:
+~~~shell
+cat scripts/contract_pub.js
+~~~
+Copy paste code into the following javascript console, run the code to see a new transaction to be mined
+~~~shell
+geth attach http://35.189.163.25:8545
+~~~
+Now open [http://35.229.221.95:5000/](http://35.229.221.95:5000/) on your web explorer to explorer blocks & transactions.
