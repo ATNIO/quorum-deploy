@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./recreate_consortium
+./recreate_explorer

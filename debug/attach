@@ -1,3 +1,4 @@
 #!/bin/bash
 
-geth attach http://`minikube ip`:3170$1
+ip=`kubectl get service | grep $1 | awk '{print $4}'`
+geth attach http://${ip}:8545

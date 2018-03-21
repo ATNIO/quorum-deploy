@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pod=`kubectl get pod | grep $1 | cut -d' ' -f1`
+echo `kubectl exec $pod cat /qdata/constellation/keys/tm.pub`

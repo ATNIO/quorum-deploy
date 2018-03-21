@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./kill_explorer
+./create_explorer
