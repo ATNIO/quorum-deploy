@@ -11,6 +11,7 @@ GETH_ARGS="--datadir /qdata/dd \
   --rpc --rpcaddr 0.0.0.0 \
   --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum \
   --nodiscover \
+  --emitcheckpoints \
   --unlock 0 --password /qdata/passwords.txt"
 
 if [ ! -d /qdata/dd/geth/chaindata ]; then
@@ -21,7 +22,12 @@ fi
 echo "[*] Starting Constellation node"
 nohup $CONSTELLATION $TMCONF 2>> /qdata/logs/constellation.log &
 
-sleep 5
+DOWN=true
+while $DOWN; do
+	if [ -S "qdata/tm.ipc" ]; then
+    DOWN=false
+	fi
+done
 
 echo "[*] Starting node"
 PRIVATE_CONFIG=/qdata/tm.ipc nohup $GETH $GETH_ARGS 2>>/qdata/logs/geth.log

@@ -109,11 +109,15 @@ cat >> genesis.json <<EOF
   },
   "coinbase": "0x0000000000000000000000000000000000000000",
   "config": {
-    "homesteadBlock": 0
+    "homesteadBlock": 0,
+    "chainId": 1,
+    "eip155Block": null,
+    "eip158Block": null,
+    "isQuorum": true
   },
   "difficulty": "0x0",
-  "extraData": "0x",
-  "gasLimit": "0x2FEFD800",
+  "extraData": "0x0000000000000000000000000000000000000000000000000000000000000000",
+  "gasLimit": "0xE0000000",
   "mixhash": "0x00000000000000000000000000000000000000647572616c65787365646c6578",
   "nonce": "0x0",
   "parentHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
