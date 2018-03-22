@@ -34,12 +34,36 @@ kubectl create -f consortium.yaml,explorer.yaml
 Now you have a local consortium cluster running inside minikube.
 
 ### Try on testnet
-Our consortium chain is now living on the `GCP Kubernetes Engine`, named [consortiumchain](https://console.cloud.google.com/kubernetes/list?project=consortiumchain). You can play with it in this way:
+Our consortium chain is now living on the `GCP Kubernetes Engine`, named [consortiumchain](https://console.cloud.google.com/kubernetes/list?project=consortiumchain).
+* Consortium chain explorer url:
 ~~~shell
-cat scripts/contract_pub.js
+http://35.229.221.95:5000/
 ~~~
-Copy paste code into the following javascript console, run the code to see a new transaction to be mined
+* Consortium node rpc urls:
 ~~~shell
-geth attach http://35.189.163.25:8545
+\# node-1
+http://35.189.163.25:8545
+\# node-2
+http://35.201.215.219:8545
+\# node-3
+http://35.229.229.248:8545
+~~~
+* Consortium node public keys:
+~~~shell
+\# node-1
+'hMaN1moDsF0woutJDVm/gYenxzoPblWOtUsITZCnPH0='
+\# node-2
+'W3/wJdmOdtDl8Vn78i+m35V3tlS0wXd1g0/9EONv4Vc='
+\# node-3
+'K55ODn4F9sY9wAQDHYuUlEwRFCV7eSFenJbKv+Np+Q0='
+~~~
+You may play with them in this way:
+* Public contract creation
+~~~shell
+geth --exec 'loadScript("scripts/contract_pub.js")' attach http://35.189.163.25:8545
+~~~
+* Private contract creation
+~~~shell
+geth --exec 'loadScript("scripts/contract_pri.js")' attach http://35.189.163.25:8545
 ~~~
 Now open [http://35.229.221.95:5000/](http://35.229.221.95:5000/) on your web explorer to explorer blocks & transactions.
