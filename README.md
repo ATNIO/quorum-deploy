@@ -41,20 +41,20 @@ http://35.229.221.95:5000/
 ~~~
 * Consortium node rpc urls:
 ~~~shell
-\# node-1
+# node-1
 http://35.189.163.25:8545
-\# node-2
+# node-2
 http://35.201.215.219:8545
-\# node-3
+# node-3
 http://35.229.229.248:8545
 ~~~
 * Consortium node public keys:
 ~~~shell
-\# node-1
+# node-1
 'hMaN1moDsF0woutJDVm/gYenxzoPblWOtUsITZCnPH0='
-\# node-2
+# node-2
 'W3/wJdmOdtDl8Vn78i+m35V3tlS0wXd1g0/9EONv4Vc='
-\# node-3
+# node-3
 'K55ODn4F9sY9wAQDHYuUlEwRFCV7eSFenJbKv+Np+Q0='
 ~~~
 You may play with them in this way:
