@@ -32,6 +32,7 @@ spec:
         - containerPort: 8545
         - containerPort: 23000
         - containerPort: 9000
+        - containerPort: 30303
         resources: {}
         volumeMounts:
         - mountPath: /qdata
@@ -81,6 +82,9 @@ spec:
   - name: constellation
     port: 9000
     targetPort: 9000
+  - name: tx
+    port: 30303
+    targetPort: 30303
   selector:
     service.rpc: node-_NODE_ID_
 status:
