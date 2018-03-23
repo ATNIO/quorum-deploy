@@ -1,5 +1,5 @@
 # quorum-consortium
-Create quorum based consortium, run it by Docker-compose & Kubernetes
+Create quorum based consortium chain painless, deploy it to Docker-compose & Kubernetes
 
 ## Dependencies
 * `docker`
@@ -8,30 +8,58 @@ Create quorum based consortium, run it by Docker-compose & Kubernetes
 
 ## Installation
 ~~~shell
-git clone https://github.com/ATNIO/quorum-consortium.git
-cd quorum-consortium
-docker build -t quorum . -f quorum.Dockerfile .
-docker build -t explorer-ui -f ui.Dockerfile .
+git clone https://github.com/ATNIO/consortium-chain.git
+cd consortium-chain
+docker build -t asia.gcr.io/consortiumchain/quorum . -f quorum.Dockerfile .
+docker build -t asia.gcr.io/consortiumchain/explorer-ui -f ui.Dockerfile .
+docker build -t asia.gcr.io/consortiumchain/explorer-backend -f backend.Dockerfile .
 ~~~
 
 ## Usage
 
 ### Docker-compose
-Edit `ip.cfg`, enable the config for docker and disable the kubernetes one
+Edit `ip.cfg`, enable the config for docker and disable the others, then run
 ~~~shell
-./setup.sh
-docker-compose up -d
+./setup.sh && docker-compose up -d
 ~~~
-Then `geth attach http://0.0.0.0:22001` and copy code in `scripts/contract_pri.js`, paste it to the console to create a private contract.
+Now you have a consortium chain and it's explorer running inside docker, you can test them by
+~~~shell
+geth --exec 'loadScript("scripts/contract_pub.js") attach http://0.0.0.0:22001
+open http://localhost:5000 # For MacOS, this will open the [explorer](http://localhost:5000) page on your default web explorer
+~~~
+If the explorer doesn't sync block data correctly, you should restart it by
+~~~shell
+docker-compose restart explorer_backend
+~~~
 
-### Kubernetes
-Edit `ip.cfg`, enable the config for kubernetes and disable the other one
+### Minikube
+Edit `ip.cfg`, enable the config for `minikube` and disable the other ones, then run
 ~~~shell
 ./setup.sh
 minikube start
+kubectl config use-context minikube
 kubectl create -f consortium.yaml,explorer.yaml
 ~~~
-Now you have a local consortium cluster running inside minikube.
+Now you have a local consortium chain cluster and it's explorer running inside minikube, have a try by
+~~~shell
+geth --exec 'loadScript("scripts/contract_pub.js") attach http://$(minikube ip):31701
+open http://$(minikube ip):31701
+~~~
+If the explorer doesn't sync block data correctly, you should restart it by
+~~~shell
+cd debug && ./recreate_explorer
+~~~
+
+### Production
+Similar to minikube, one important additional thing is that you must have a static ip address for `explorer_ip` in `ip.cfg`. For GCP, follow [this](https://cloud.google.com/sdk/gcloud/reference/compute/addresses/create)
+In addition, there are several scripts in the `debug/` directory may help you. To use them, you must `cd debug`
+~~~shell
+./attach node-1 # geth attach to node-1
+./inspect node-1 # get into container of node-1
+./inspect expl mongodb # get into container of mongodb of explore
+./pubkey node-1 # get constellation public key of node-1
+~~~
+For other scripts, just run it and it will do the thing as it's name says.
 
 ### Try on testnet
 Our consortium chain is now living on the `GCP Kubernetes Engine`, named [consortiumchain](https://console.cloud.google.com/kubernetes/list?project=consortiumchain).
@@ -42,28 +70,28 @@ http://35.229.221.95:5000/
 * Consortium node rpc urls:
 ~~~shell
 # node-1
-http://35.189.163.25:8545
-# node-2
-http://35.201.215.219:8545
-# node-3
 http://35.229.229.248:8545
+# node-2
+http://35.229.234.137:8545
+# node-3
+http://35.189.163.25:8545
 ~~~
 * Consortium node public keys:
 ~~~shell
 # node-1
-hMaN1moDsF0woutJDVm/gYenxzoPblWOtUsITZCnPH0=
+lWM5I0uAxYM5KtErQzVyTuu78PUdnD7O04X+KJa2jnA=
 # node-2
-W3/wJdmOdtDl8Vn78i+m35V3tlS0wXd1g0/9EONv4Vc=
+qPWwyTNsvvIc/uMW0xJ810q5GzCKlZiBd++yb2uyqGw=
 # node-3
-K55ODn4F9sY9wAQDHYuUlEwRFCV7eSFenJbKv+Np+Q0=
+VFGDLSDLVenZbN4uAV0nJh+4izTLDCkQ4/9QwQGxewU=
 ~~~
-You may play with them in this way:
+You may play with them in this way
 * Public contract creation
 ~~~shell
-geth --exec 'loadScript("scripts/contract_pub.js")' attach http://35.189.163.25:8545
+geth --exec 'loadScript("scripts/contract_pub.js")' attach http://35.229.229.248:8545
 ~~~
 * Private contract creation
 ~~~shell
-geth --exec 'loadScript("scripts/contract_pri.js")' attach http://35.189.163.25:8545
+geth --exec 'loadScript("scripts/contract_pri.js")' attach http://35.229.229.248:8545
 ~~~
 Now open [http://35.229.221.95:5000/](http://35.229.221.95:5000/) on your web explorer to explorer blocks & transactions.
