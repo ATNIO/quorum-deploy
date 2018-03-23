@@ -9,7 +9,7 @@ metadata:
     name: node-endpoint
   name: node-endpoint
 spec:
-  clusterIP: 10.23.250.0
+  clusterIP: _NODE_ENDPOINT_IP_
   ports:
   - name: rpc
     port: 8545
@@ -41,8 +41,9 @@ spec:
       - name: explorer-ui
         env:
         - name: REACT_APP_EXPLORER
-          value: http://_EXPLORER_IP_:8081
+          value: http://_EXPLORER_IP_:_EXPLORER_BACKEND_PORT_
         image: _EXPLORER_UI_IMAGE_
+        imagePullPolicy: _IMAGE_PULL_POLICY_
         ports:
         - containerPort: 5000
         resources: {}
@@ -56,10 +57,11 @@ spec:
         - name: MONGO_DB_NAME
           value: consortium-explorer
         - name: NODE_ENDPOINT
-          value: http://10.23.250.0:8545
+          value: http://_NODE_ENDPOINT_IP_:8545
         - name: UI_IP
-          value: http://_EXPLORER_IP_:5000
+          value: http://_EXPLORER_IP_:_EXPLORER_UI_PORT_
         image: _EXPLORER_BACKEND_IMAGE_
+        imagePullPolicy: _IMAGE_PULL_POLICY_
         ports:
         - containerPort: 8081
         resources: {}
@@ -71,6 +73,7 @@ spec:
         - --bind_ip
         - 0.0.0.0
         image: _EXPLORER_MONGO_IMAGE_
+        imagePullPolicy: _IMAGE_PULL_POLICY_
         ports:
         - containerPort: 27017
         resources: {}
@@ -88,12 +91,14 @@ metadata:
   name: explorer
 spec:
   type: LoadBalancer
-  loadBalancerIP: 35.229.221.95
+  loadBalancerIP: _EXPLORER_IP_
   ports:
   - name: ui
+    nodePort: 31710
     port: 5000
     targetPort: 5000
   - name: backend
+    nodePort: 31711
     port: 8081
     targetPort: 8081
   selector:

@@ -22,6 +22,7 @@ spec:
     spec:
       containers:
       - image: _QUORUM_IMAGE_
+        imagePullPolicy: _IMAGE_PULL_POLICY_
         name: node-_NODE_ID_
         command: ["/bin/bash"]
         args:
@@ -74,6 +75,7 @@ spec:
   clusterIP: "_NODE_IP_"
   ports:
   - name: rpc
+    nodePort: 3170_NODE_ID_
     port: 8545
     targetPort: 8545
   - name: raft
