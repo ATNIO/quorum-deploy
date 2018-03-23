@@ -190,7 +190,7 @@ do
 
   cat >> docker-compose.yml <<EOF
   node_$n:
-    image: $image
+    image: $quorum_image
     volumes:
       - './$qd:/qdata'
     networks:
@@ -203,6 +203,33 @@ EOF
 
   let n++
 done
+
+cat >> docker-compose.yml <<EOF
+  explorer_backend:
+    image: $explorer_backend_image
+    ports:
+      - 8081:8081
+    environment:
+      - JAVA_OPTS=
+      - EXPLORER_PORT=8081
+      - NODE_ENDPOINT=http://${ips[1]}:8545
+      - MONGO_CLIENT_URI=mongodb://docker.for.mac.host.internal:27017
+      - MONGO_DB_NAME=test
+      - UI_IP=http://localhost:5000
+    depends_on:
+      - mongodb
+  explorer_mongodb:
+    image: $explorer_mongo_image
+    ports:
+      - 27017:27017
+    entrypoint: mongod --smallfiles --logpath=/dev/null --bind_ip "0.0.0.0"
+  explorer_ui:
+    image: $explorer_ui_image
+    ports:
+      - 5000:5000
+    environment:
+      - REACT_APP_EXPLORER=http://localhost:8081
+EOF
 
 cat >> docker-compose.yml <<EOF
 
@@ -254,6 +281,7 @@ do
     | sed "s;_NODE_ID_;$n;g" \
     | sed "s;_NODE_IP_;$ip;g" \
     | sed "s;_NODE_PORT_;$port;g" \
+    | sed "s;_QUORUM_IMAGE_;$quorum_image;g" \
     | sed '/_NODE_SCRIPT_/r init.sh' \
     | sed '/_NODE_SCRIPT_/d' \
     >> consortium.yaml
@@ -263,4 +291,10 @@ do
   let port++
 done
 
-cp templates/explorer.yaml explorer.yaml
+cat templates/explorer.yaml \
+  | sed "s;_EXPLORER_IP_;$explorer_ip;g" \
+  | sed "s;_NODE_ENDPOINT_IP_;$node_endpoint_ip;g" \
+  | sed "s;_EXPLORER_UI_IMAGE_;$explorer_ui_image;g" \
+  | sed "s;_EXPLORER_BACKEND_IMAGE_;$explorer_backend_image;g" \
+  | sed "s;_EXPLORER_MONGO_IMAGE_;$explorer_mongo_image;g" \
+  >> explorer.yaml

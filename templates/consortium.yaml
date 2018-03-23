@@ -21,7 +21,7 @@ spec:
         service.rpc: node-_NODE_ID_
     spec:
       containers:
-      - image: asia.gcr.io/consortiumchain/quorum
+      - image: _QUORUM_IMAGE_
         name: node-_NODE_ID_
         command: ["/bin/bash"]
         args:
