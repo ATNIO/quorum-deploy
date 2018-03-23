@@ -10,7 +10,8 @@ Create quorum based consortium chain painless, deploy it to Docker-compose & Kub
 ~~~shell
 git clone https://github.com/ATNIO/consortium-chain.git
 cd consortium-chain
-docker build -t asia.gcr.io/consortiumchain/quorum . -f quorum.Dockerfile .
+docker build -t quorum . -f quorum.Dockerfile .
+docker tag quorum asia.gcr.io/consortiumchain/quorum
 docker build -t asia.gcr.io/consortiumchain/explorer-ui -f ui.Dockerfile .
 docker build -t asia.gcr.io/consortiumchain/explorer-backend -f backend.Dockerfile .
 ~~~
@@ -18,7 +19,7 @@ docker build -t asia.gcr.io/consortiumchain/explorer-backend -f backend.Dockerfi
 ## Usage
 
 ### Docker-compose
-Edit `ip.cfg`, enable the config for docker and disable the others, then run
+Edit `ip.cfg`, enable the config for `docker` and disable the others, then run
 ~~~shell
 ./setup.sh && docker-compose up -d
 ~~~
