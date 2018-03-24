@@ -43,8 +43,8 @@ kubectl create -f consortium.yaml,explorer.yaml
 ~~~
 Now you have a local consortium chain cluster and it's explorer running inside minikube, have a try by
 ~~~shell
-geth --exec 'loadScript("scripts/contract_pub.js") attach http://$(minikube ip):31701
-open http://$(minikube ip):31701
+geth --exec 'loadScript("scripts/contract_pub.js")' attach http://$(minikube ip):31710
+open http://$(minikube ip):31710
 ~~~
 If the explorer doesn't sync block data correctly, you should restart it by
 ~~~shell
