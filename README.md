@@ -1,4 +1,4 @@
-# quorum-consortium
+# consortium-chain
 Create quorum based consortium chain painless, deploy it to Docker-compose & Kubernetes
 
 ## Dependencies
