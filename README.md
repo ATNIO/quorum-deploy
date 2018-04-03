@@ -77,6 +77,10 @@ http://35.201.215.219:8545
 # node-3
 http://35.189.163.25:8545
 ~~~
+* Loadbalanced nodes' rpc url:
+~~~shell
+http://35.194.196.250:8545
+~~~
 * Consortium node public keys:
 ~~~shell
 # node-1
