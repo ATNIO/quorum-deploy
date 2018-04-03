@@ -298,6 +298,30 @@ do
   let port++
 done
 
+cat >> consortium.yaml <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    app: consortiumchain
+    version: '1'
+  creationTimestamp: null
+  labels:
+    name: node-endpoint
+  name: node-endpoint
+spec:
+  type: LoadBalancer
+  clusterIP: $node_endpoint_ip
+  ports:
+  - name: rpc
+    port: 8545
+    targetPort: 8545
+  selector:
+    app: consortiumchain
+status:
+  loadBalancer: {}
+EOF
+
 cat templates/explorer.yaml \
   | sed "s;_EXPLORER_IP_;$explorer_ip;g" \
   | sed "s;_EXPLORER_UI_PORT_;$explorer_ui_port;g" \

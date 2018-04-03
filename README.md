@@ -73,26 +73,28 @@ http://35.229.221.95:5000/
 # node-1
 http://35.229.229.248:8545
 # node-2
-http://35.229.234.137:8545
+http://35.201.215.219:8545
 # node-3
 http://35.189.163.25:8545
 ~~~
 * Consortium node public keys:
 ~~~shell
 # node-1
-lWM5I0uAxYM5KtErQzVyTuu78PUdnD7O04X+KJa2jnA=
+fsOD/f81FUBcO84u4EGkoHx1ymvPhPcUc7qTuiJX6VY=
 # node-2
-qPWwyTNsvvIc/uMW0xJ810q5GzCKlZiBd++yb2uyqGw=
+JEpO9gLgPcQM3II8MP4Hzf0mHrS1vcGIao+AWrK1qCA=
 # node-3
-VFGDLSDLVenZbN4uAV0nJh+4izTLDCkQ4/9QwQGxewU=
+RHoXgVLqX9KwMvBfi3os6xylk1+XhPslDW4rLge+Hj4=
 ~~~
 You may play with them in this way
 * Public contract creation
 ~~~shell
+# deploy a public contract to node-1
 geth --exec 'loadScript("scripts/contract_pub.js")' attach http://35.229.229.248:8545
 ~~~
 * Private contract creation
 ~~~shell
+# deploy a private contract to node-1, private for node-2
 geth --exec 'loadScript("scripts/contract_pri.js")' attach http://35.229.229.248:8545
 ~~~
 Now open [http://35.229.221.95:5000/](http://35.229.221.95:5000/) on your web explorer to explorer blocks & transactions.
