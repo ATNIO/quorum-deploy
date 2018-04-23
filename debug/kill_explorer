@@ -1,6 +1,0 @@
-#!/bin/bash
-
-kubectl delete deployment explorer
-kubectl get pod | grep explorer | cut -d' ' -f1 | xargs kubectl delete pod
-kubectl get pvc | grep explorer | cut -d' ' -f1 | xargs kubectl delete pvc
-kubectl delete service explorer

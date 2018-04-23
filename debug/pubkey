@@ -1,4 +1,19 @@
 #!/bin/bash
 
+USAGE=$(cat <<EOF
+Get public key of given constellation node.
+Usage:
+      ./pubkey node-1 | node-2 | node-3
+Example:
+      ./pubkey node-1
+EOF
+)
+
+if [[ $1 != "node-1" ]] && [[ $1 != "node-2" ]] && [[ $1 != "node-3" ]]
+then
+  echo "$USAGE"
+  exit 0
+fi
+
 pod=`kubectl get pod | grep $1 | cut -d' ' -f1`
 echo `kubectl exec $pod cat /qdata/constellation/keys/tm.pub`

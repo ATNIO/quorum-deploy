@@ -1,24 +1,33 @@
 #!/bin/bash
 
-pod=`kubectl get pod | grep $1 | cut -d' ' -f1`
-if [[ $pod =~ ^explorer ]]
+USAGE=$(cat <<EOF
+Ssh login into given consortium node or explorer container.
+Usage:
+      ./inspect node-1 | node-2 | node-3 | explorer <ui | backend | mongodb>
+Example:
+      ./inspect explorer mongodb
+EOF
+)
+
+if [[ $# -lt 1 ]] || [[ $# -gt 2 ]]
 then
-  kubectl exec -ti $pod -c explorer-$2 /bin/sh
-else
-  kubectl exec -ti $pod /bin/bash
+  echo "$USAGE"
+  exit 0
 fi
 
-# PS3='Choose a pod: '
-# pods=`kubectl get pod | cut -d' ' -f1`
-# select pod in "${pods[@]}"
-# do
-#   if [[ $pod =~ ^explorer ]]; then
-#     containers=("ui" "backend" "mongodb")
-#     select container in "${containers[@]}"
-#     do
-#       kubectl exec -ti $pod -c $container /bin/sh
-#     done
-#   else
-#     kubectl exec -ti $pod /bin/bash
-#   fi
-# done
+pod=`kubectl get pod | grep $1 | cut -d' ' -f1`
+
+if [[ $pod =~ ^node ]]
+then
+  kubectl exec -ti $pod /bin/bash
+elif [[ $pod =~ ^explorer ]]
+then
+  if [[ $2 == "ui" ]] || [[ $2 == "backend" ]] || [[ $2 == "mongodb" ]]
+  then
+    kubectl exec -ti $pod -c explorer-$2 /bin/sh
+  else
+    echo "$USAGE"
+  fi
+else
+  echo "$USAGE"
+fi
