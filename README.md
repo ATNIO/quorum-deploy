@@ -48,12 +48,12 @@ open http://$(minikube ip):31710
 ~~~
 If the explorer doesn't sync block data correctly, you should restart it by
 ~~~shell
-cd debug && ./recreate_explorer
+cd scripts && ./recreate explorer
 ~~~
 
 ### Production
 Similar to minikube, one important additional thing is that you must have a static ip address for `explorer_ip` in `ip.cfg`. For GCP, follow [this](https://cloud.google.com/sdk/gcloud/reference/compute/addresses/create)
-In addition, there are several scripts in the `debug/` directory may help you. To use them, you must `cd debug`
+In addition, there are several scripts in the `scripts/` directory may help you. To use them, you must `cd scripts`
 ~~~shell
 ./attach node-1 # geth attach to node-1
 ./inspect node-1 # get into container of node-1
