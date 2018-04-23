@@ -25,8 +25,8 @@ Edit `ip.cfg`, enable the config for `docker` and disable the others, then run
 ~~~
 Now you have a consortium chain and it's explorer running inside docker, you can test them by
 ~~~shell
-geth --exec 'loadScript("scripts/contract_pub.js") attach http://0.0.0.0:22001
-open http://localhost:5000 # For MacOS, this will open the [explorer](http://localhost:5000) page on your default web explorer
+geth --exec 'loadScript("examples/contract_pub.js") attach http://0.0.0.0:22001
+open http://localhost:5000
 ~~~
 If the explorer doesn't sync block data correctly, you should restart it by
 ~~~shell
@@ -43,7 +43,7 @@ kubectl create -f consortium.yaml,explorer.yaml
 ~~~
 Now you have a local consortium chain cluster and it's explorer running inside minikube, have a try by
 ~~~shell
-geth --exec 'loadScript("scripts/contract_pub.js")' attach http://$(minikube ip):31710
+geth --exec 'loadScript("examples/contract_pub.js")' attach http://$(minikube ip):31710
 open http://$(minikube ip):31710
 ~~~
 If the explorer doesn't sync block data correctly, you should restart it by
@@ -94,11 +94,11 @@ You may play with them in this way
 * Public contract creation
 ~~~shell
 # deploy a public contract to node-1
-geth --exec 'loadScript("scripts/contract_pub.js")' attach http://35.229.229.248:8545
+geth --exec 'loadScript("examples/contract_pub.js")' attach http://35.229.229.248:8545
 ~~~
 * Private contract creation
 ~~~shell
 # deploy a private contract to node-1, private for node-2
-geth --exec 'loadScript("scripts/contract_pri.js")' attach http://35.229.229.248:8545
+geth --exec 'loadScript("examples/contract_pri.js")' attach http://35.229.229.248:8545
 ~~~
 Now open [http://35.229.221.95:5000/](http://35.229.221.95:5000/) on your web explorer to explorer blocks & transactions.
