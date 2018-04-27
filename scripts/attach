@@ -1,0 +1,19 @@
+#!/bin/bash
+
+USAGE=$(cat <<EOF
+Geth attach to given consortium chain node.
+Usage:
+      ./attach node-1 | node-2 | node-3
+Example:
+      ./attach node-1
+EOF
+)
+
+if [[ $1 != "node-1" ]] && [[ $1 != "node-2" ]] && [[ $1 != "node-3" ]]
+then
+  echo "$USAGE"
+  exit 0
+fi
+
+ip=`kubectl get service | grep $1 | awk '{print $4}'`
+geth attach http://${ip}:8545

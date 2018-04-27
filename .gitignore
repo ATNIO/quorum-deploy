@@ -1,6 +1,6 @@
 *.swp
 qdata_*
-scripts/
+examples/
 docker-compose.yml
 consortium.yaml
 explorer.yaml

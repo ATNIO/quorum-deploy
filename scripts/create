@@ -1,0 +1,26 @@
+#!/bin/bash
+
+USAGE=$(cat <<EOF
+Create given resource.
+Usage:
+      ./create consortium | explorer | all
+Example:
+      ./create consortium
+EOF
+)
+
+case $1 in
+	consortium)
+    kubectl create -f ../consortium.yaml
+		;;
+	explorer)
+    kubectl create -f ../explorer.yaml
+		;;
+  all)
+    kubectl create -f ../consortium.yaml
+    kubectl create -f ../explorer.yaml
+    ;;
+	*)
+    echo "$USAGE"
+		;;
+esac
