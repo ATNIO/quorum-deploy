@@ -1,4 +1,4 @@
-# consortium-chain
+# quorum-deploy
 Create quorum based consortium chain painless, deploy it to Docker-compose & Kubernetes
 
 ## Dependencies
@@ -8,12 +8,14 @@ Create quorum based consortium chain painless, deploy it to Docker-compose & Kub
 
 ## Installation
 ~~~shell
-git clone https://github.com/ATNIO/consortium-chain.git
-cd consortium-chain
-docker build -t quorum . -f quorum.Dockerfile .
+git clone https://github.com/ATNIO/quorum-deploy.git
+cd quorum-deploy
+docker build -t quorum -f quorum.Dockerfile .
 docker tag quorum asia.gcr.io/consortiumchain/quorum
-docker build -t asia.gcr.io/consortiumchain/explorer-ui -f ui.Dockerfile .
-docker build -t asia.gcr.io/consortiumchain/explorer-backend -f backend.Dockerfile .
+docker build -t explorer-ui -f ui.Dockerfile .
+docker tag explorer-ui asia.gcr.io/consortiumchain/explorer-ui
+docker build -t explorer-backend -f backend.Dockerfile .
+docker tag explorer-backend asia.gcr.io/consortiumchain/explorer-backend
 ~~~
 
 ## Usage
@@ -36,6 +38,13 @@ docker-compose restart explorer_backend
 ### Minikube
 Edit `ip.cfg`, enable the config for `minikube` and disable the other ones, then run
 ~~~shell
+eval $(minikube docker-env)
+docker build -t quorum -f quorum.Dockerfile .
+docker tag quorum asia.gcr.io/consortiumchain/quorum
+docker build -t explorer-ui -f ui.Dockerfile .
+docker tag explorer-ui asia.gcr.io/consortiumchain/explorer-ui
+docker build -t explorer-backend -f backend.Dockerfile .
+docker tag explorer-backend asia.gcr.io/consortiumchain/explorer-backend
 ./setup.sh
 minikube start
 kubectl config use-context minikube
